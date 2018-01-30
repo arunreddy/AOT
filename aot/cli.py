@@ -4,10 +4,13 @@ import logging
 import os
 from aot.utils.log_utils import f_timeit
 from aot.dataset import  get_dataset
+from aot.algo import execute_algorithm
 
 def main(args):
-  df_pos, df_neg = get_dataset(args.dataset, 1000)
 
+  # The following set of actions are self-explainable.
+  dataset = get_dataset(args.dataset, 1000)
+  execute_algorithm(dataset, args.algo)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser(description='OTSC - Off-the-Shelf Classifier')
@@ -19,6 +22,8 @@ if __name__ == '__main__':
   parser.add_argument('--n-labeled', type=int, default=400)
   parser.add_argument('--weighted', action='store_true', default=True)
   parser.add_argument('--debug', action='store_true', default=True)
+  parser.add_argument('--algo', choices=['svm', 'baseline', 'aot', 'aot-1', 'aot-2'], default='aot')
+
 
   args = parser.parse_args()
 

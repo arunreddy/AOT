@@ -3,11 +3,12 @@ Script to covernt the large movie review dataset to numpy format.
 """
 import os
 from glob import glob
-
+import joblib
 import numpy as np
 import pandas as pd
 from sqlalchemy import create_engine
-
+from aot.utils import FeaturesGenerator
+from aot.dataset.base_dataset import Dataset
 
 class Imdb(object):
   def __init__(self):
@@ -67,24 +68,23 @@ class Imdb(object):
 
   def get_dataset(self, n=100):
     df_pos, df_neg = self.load_data_from_raw_files(n)
-    dataset = None
 
+    cache_file = os.path.join(os.environ['TMP_DIR'],"imdb_%d.dat"%n)
+    if(os.path.exists(cache_file)):
+      print("Returning the file from cache - [%s]"%cache_file)
+      return joblib.load(cache_file)
+
+    df = df_pos.append(df_neg)
     # Generate features.
+    feature_generator = FeaturesGenerator()
+    X = feature_generator.genereate_features(df)
+    L, D = feature_generator.graph_laplacian(X)
+    Y = np.reshape(df['label'].values,(df.shape[0],1))
+    YZERO = np.reshape(df['stanford_label'].values,(df.shape[0],1))
+    FZERO = np.reshape(df['stanford_confidence_scores'].apply(lambda x: np.max(list(map(float, x.split(','))))).values,(df.shape[0],1))
 
+    dataset = Dataset("imdb", X, Y, L, D, YZERO, FZERO)
 
-    # Split as test and train.
-
-
-    # Compute the adjacency matrix
-
-
-
-    # Create a dataset object
-
+    joblib.dump(dataset,cache_file,compress=3)
 
     return dataset
-
-
-if __name__ == '__main__':
-  imdb = Imdb()
-  imdb.read_data()

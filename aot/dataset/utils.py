@@ -1,21 +1,19 @@
 from aot.dataset.imdb import Imdb
 
 
-def get_dataset(name, n):
+def get_dataset(name, n=100):
   """
   Return the requested dataset.
 
   :param name: name of the dataset.
   :return: return the instance to dataset.
   """
-
+  dataset = None
   if name == "imdb":
     imdb = Imdb()
-    df_pos, df_neg = imdb.load_data_from_raw_files()
-    return df_pos, df_neg
+    dataset = imdb.get_dataset(n)
 
-
-  return None
+  return dataset
 
 
 def get_DB():
