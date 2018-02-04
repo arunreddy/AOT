@@ -58,7 +58,7 @@ class Imdb(object):
     return df_pos, df_neg
 
   def load_data_from_raw_files(self, n=100):
-    raw_file = os.path.join(os.environ['DATA_DIR'], 'imdb.csv')
+    raw_file = os.path.join(os.environ['DATA_DIR'], 'imdb.csv.gz')
     df = pd.read_csv(raw_file)
 
     df_pos = df[df['label'] == 1]
