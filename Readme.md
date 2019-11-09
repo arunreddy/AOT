@@ -1,17 +1,7 @@
 
-## Algorithm
+## Source Free Domain Adaptation Using an Off-the-Shelf Classifier
 
-#### Implementation on the Toy Dataset.
-
-```bash
-python run code.
-```
-
-1. Prepare the toy dataset.
-    1. 
-1. Next Steps
-    
-
+Source code for our paper `Nelakurthi, Arun Reddy, Ross Maciejewski, and Jingrui He. "Source Free Domain Adaptation Using an Off-the-Shelf Classifier." 2018 IEEE International Conference on Big Data (Big Data). IEEE, 2018.`
 
 
 
